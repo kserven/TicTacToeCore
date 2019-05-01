@@ -28,44 +28,24 @@ namespace TicTacToe
         }
         public int DetectWin()
         {
-            for (int index = 0; index < 3; index++)
+            string[] playerCharacters = {"X", "O"};
+
+            foreach (string player in playerCharacters)
             {
-                if (_board[index, 0].Equals("X") && _board[index, 1].Equals("X") && _board[index, 2].Equals("X"))
+                for (int index = 0; index < 3; index++)
                 {
-                    return 1;
+                    if (_board[index, 0].Equals(player) && _board[index, 1].Equals(player) && _board[index, 2].Equals(player)
+                        || _board[0, index].Equals(player) && _board[1, index].Equals(player) && _board[2, index].Equals(player))
+                    {
+                        return player.Equals("X") ? 1 : 2;
+                    }
                 }
 
-                if (_board[index, 0].Equals("O") && _board[index, 1].Equals("O") && _board[index, 2].Equals("O"))
+                if (_board[0, 0].Equals(player) && _board[1, 1].Equals(player) && _board[2, 2].Equals(player)
+                    || _board[0, 2].Equals(player) && _board[1, 1].Equals(player) && _board[2, 0].Equals(player))
                 {
-                    return 2;
+                    return player.Equals("X") ? 1 : 2;
                 }
-
-                if (_board[0, index].Equals("X") && _board[1, index].Equals("X") && _board[2, index].Equals("X"))
-                {
-                    return 1;
-                }
-
-                if (_board[0, index].Equals("O") && _board[1, index].Equals("O") && _board[2, index].Equals("O"))
-                {
-                    return 2;
-                }
-            }
-
-            if (_board[0, 0].Equals("X") && _board[1, 1].Equals("X") && _board[2, 2].Equals("X"))
-            {
-                return 1;
-            }
-            if (_board[0, 0].Equals("O") && _board[1, 1].Equals("O") && _board[2, 2].Equals("O"))
-            {
-                return 2;
-            }
-            if (_board[0, 2].Equals("X") && _board[1, 1].Equals("X") && _board[2, 0].Equals("X"))
-            {
-                return 1;
-            }
-            if (_board[0, 2].Equals("O") && _board[1, 1].Equals("O") && _board[2, 0].Equals("O"))
-            {
-                return 2;
             }
 
             int count = 0;
@@ -76,10 +56,7 @@ namespace TicTacToe
                     if (_board[row, col].Equals("X") || _board[row, col].Equals("O")) count++;
                 }
 
-                if (count >= 9)
-                {
-                    return 4;
-                }
+                if (count >= 9) {return 4;}
             }
 
             return 0;
@@ -89,7 +66,7 @@ namespace TicTacToe
             int player = 1;
             int winner = 0;
 
-            string message = "";
+            var message = "";
 
             while (winner == 0)
             {
@@ -109,7 +86,7 @@ namespace TicTacToe
                     continue;
                 }
 
-                result--;
+                result--;  // decrement result by 1 to correct for base 0 in array
 
                 if (_board[result / 3, result % 3].Equals("O") || _board[result / 3, result % 3].Equals("X"))
                 {
@@ -117,16 +94,16 @@ namespace TicTacToe
                     continue;
                 }
 
-                if (player == 1)
+                switch (player)
                 {
-                    _board[result / 3, result % 3] = "X";
-                    player = 2;
-                }
-
-                else if (player == 2)
-                {
-                    _board[result / 3, result % 3] = "O";
-                    player = 1;
+                    case 1:
+                        _board[result / 3, result % 3] = "X";
+                        player = 2;
+                        break;
+                    case 2:
+                        _board[result / 3, result % 3] = "O";
+                        player = 1;
+                        break;
                 }
 
                 winner = DetectWin();
