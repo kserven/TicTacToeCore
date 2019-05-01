@@ -15,11 +15,11 @@ namespace TicTacToe
 
                 Console.Write("\n\nDo you want to play another game? (y/n) ");
 
-                string input = Console.ReadLine();
-                if (input != null && !input.Equals("y")) break;
+                char input = Console.ReadKey().KeyChar;
+                if (input != 'y') {break;}
             }
 
-            Console.WriteLine("Thank you for playing!");
+            Console.WriteLine("\nThank you for playing!");
         }
     }
 }

@@ -5,6 +5,7 @@ namespace TicTacToe
     internal class Board
     {
         private string[,] _board;
+        private string[] _playerLetter = {"X" , "O"};
 
         public void InitializeBoard()
         {
@@ -14,6 +15,7 @@ namespace TicTacToe
                 { "4", "5", "6"},
                 { "7", "8", "9"}
             };
+
         }
         public void DrawBoard()
         {
@@ -27,10 +29,8 @@ namespace TicTacToe
             Console.WriteLine(b + a, _board[2, 0], _board[2, 1], _board[2, 2]);
         }
         public int DetectWin()
-        {
-            string[] playerCharacters = {"X", "O"};
-
-            foreach (string player in playerCharacters)
+        {     
+            foreach (string player in _playerLetter)
             {
                 for (int index = 0; index < 3; index++)
                 {
@@ -73,12 +73,10 @@ namespace TicTacToe
                 DrawBoard();
                 Console.Write(message);
                 message = "";
-                Console.Write("\nPlayer {0} choose your move: ", player);
-                string input = Console.ReadLine();
-                if (!int.TryParse(input, out int result))
-                {
-                    continue;
-                }
+
+                Console.Write("\nPlayer {0} choose your move: ", _playerLetter[player -1]);
+                char input = Console.ReadKey().KeyChar;
+                if (!int.TryParse(input.ToString(), out int result)) {continue;}
 
                 if (result < 1 || result > 9)
                 {
@@ -86,7 +84,7 @@ namespace TicTacToe
                     continue;
                 }
 
-                result--;  // decrement result by 1 to correct for base 0 in array
+                result--; // decrement result by 1 to correct for base 0 in array
 
                 if (_board[result / 3, result % 3].Equals("O") || _board[result / 3, result % 3].Equals("X"))
                 {
@@ -111,11 +109,11 @@ namespace TicTacToe
 
             if (winner == 4)
             {
-                Console.WriteLine("It is a Tie!");
+                Console.WriteLine("\nIt is a Tie!");
             }
             else
             {
-                Console.WriteLine("Player {0} is the Winner!", winner);
+                Console.WriteLine("\nPlayer {0} is the Winner!", _playerLetter[winner - 1]);
             }
         }
     }
